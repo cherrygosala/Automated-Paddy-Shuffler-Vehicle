@@ -46,10 +46,10 @@ Currently, the APSV is operational for forward and backward movement with the sh
 ```mermaid
 graph TD
 A[Mobile App Input] --> B[ESP32 Controller]
-B --> C[Motor Driver (L298N)]
+B --> C[Motor Driver]
 C --> D[Wheel Motors]
 B --> E[Relay Module]
-E --> F[Blade Motor (Johnson)]
+E --> F[Blade Motor]
 B --> G[Ultrasonic Sensor]
 G --> B
 B --> H[LCD Display]
