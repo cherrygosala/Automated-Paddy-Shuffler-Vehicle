@@ -5,14 +5,14 @@ A smart agricultural robot designed to automate and optimize the paddy drying pr
 
 ---
 
-## 🚜 Project Overview
+## Project Overview
 Manual sun drying of paddy is labor-intensive, inconsistent, and susceptible to crop spoilage. The **Automated Paddy Shuffler Vehicle (APSV)** addresses these issues by automating the redistribution of paddy during drying.
 
 > APSV aims to reduce drying time, improve grain quality, and reduce dependency on manual labor.
 
 ---
 
-## 🔍 Problem Statement
+## Problem Statement
 - 80% of India's paddy is dried using open sun drying methods
 - This leads to:
   - Uneven drying and grain spoilage
@@ -22,14 +22,14 @@ Manual sun drying of paddy is labor-intensive, inconsistent, and susceptible to 
 
 ---
 
-## 💡 Proposed Solution
+## Proposed Solution
 - A semi-autonomous vehicle that shuffles paddy uniformly across the yard
 - Controlled via a mobile app using Wi-Fi
 - Includes obstacle detection, blade motor, and speed control
 
 ---
 
-## 🛠️ Components Used
+## Components Used
 - **Microcontroller:** ESP32
 - **Motors:** 4 Gear motors for movement, 1 Johnson motor for shuffling
 - **Motor Control:** L298N Dual H-Bridge + 4-Channel Relay Module
@@ -39,7 +39,7 @@ Manual sun drying of paddy is labor-intensive, inconsistent, and susceptible to 
 
 ---
 
-## 🔄 System Workflow
+## System Workflow
 
 Currently, the APSV is operational for forward and backward movement with the shuffler blade running in sync. Steering and obstacle detection modules are planned for future development.
 
@@ -57,7 +57,7 @@ B --> H[LCD Display]
 
 ---
 
-## ⚙️ Chassis & Mechanical
+## Chassis & Mechanical
 - Metal chassis with 110mm tires
 - Welded shuffler: 6mm pipe, 455mm x 60mm blades
 - One end welded to Johnson motor; other mounted via ball bearing
@@ -65,7 +65,7 @@ B --> H[LCD Display]
 
 ---
 
-## 📊 Results & Outcomes
+## Results & Outcomes
 | Metric               | Traditional Drying | APSV Drying        |
 |----------------------|--------------------|--------------------|
 | Drying Time          | 3–4 days           | 2–2.5 days         |
@@ -76,7 +76,7 @@ B --> H[LCD Display]
 
 ---
 
-## 📌 Future Scope
+## Future Scope
 - Steering integration for directional control
 - Obstacle detection using ultrasonic sensors
 - Distance measurement and path planning
@@ -90,7 +90,7 @@ B --> H[LCD Display]
 
 ---
 
-## 👨‍💻 Authors
+## Authors
 - Abhilash Cherry Gosala
 - Saggurthi Praveena
 - Aditya Narayan Sutar
@@ -99,21 +99,21 @@ Under the guidance of **Sri G. Chandra Shekar**, Assistant Professor, JNTUH-UCES
 
 ---
 
-## 📆 Development Progress
+## Development Progress
 
-### ✅ Current Capabilities
+### Current Capabilities
 - Forward and backward mobility
 - Shuffler blade rotation
 - Manual app-based control
 
-### 🔄 In Progress / Upcoming
+### In Progress / Upcoming
 - Steering system for directional control
 - Ultrasonic sensor integration for obstacle detection
 - Automation of obstacle handling logic
 
 ---
 
-## 🖼️ Project Visuals
+## Project Visuals
 
 ### Chassis Design
 - **Top View**  
@@ -134,12 +134,12 @@ Under the guidance of **Sri G. Chandra Shekar**, Assistant Professor, JNTUH-UCES
 
 ---
 
-## 🎥 Shuffler Demo
+## Shuffler Demo
 <a href="videos/shuffler_demo.mp4">▶️ Watch the demonstration video</a>
 
 ---
 
-## 📎 Note
+## Note
 The source code is part of internal academic evaluation and has not been published here. A demonstration video and modular prototype will be included in future updates.
 
 > For more details or collaboration inquiries, feel free to reach out via LinkedIn.
