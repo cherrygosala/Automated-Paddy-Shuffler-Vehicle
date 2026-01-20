@@ -90,7 +90,7 @@ The computer vision system is being developed in stages:
 - Real-time visualization of processed frames
 - See: `vision/thresholding.py`
 
-For complete CPS vision pipeline documentation, refer to: [APSV_CPS_VISION_PIPELINE_DOCUMENTATION.txt](APSV_CPS_VISION_PIPELINE_DOCUMENTATION.txt)
+For complete CPS vision pipeline documentation, refer to: [APSV_CPS_CNN_VISION_PIPELINE_DOCUMENTATION.txt](APSV_CPS_CNN_VISION_PIPELINE_DOCUMENTATION.txt)
 
 ---
 
