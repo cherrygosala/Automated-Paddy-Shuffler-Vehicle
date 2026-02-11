@@ -264,3 +264,109 @@ The L298N is rated for **2 A per channel**. Driving two motors per channel risks
 - Add battery voltage monitoring via ADC
 - Add thermal monitoring on motor driver and regulators
 - Transition to a modular PCB instead of jumper wiring
+
+---
+
+## ⚡ Power System Debugging & Engineering Improvements
+
+### 🔍 Identified Issues During Integration
+
+During full-system integration testing, the following issues were observed:
+
+- Motors operated individually but failed when all components were connected.
+- System instability occurred when ultrasonic sensor and LCD were connected.
+- Motors failed to move under full vehicle load.
+- Use of jumper wires for motor power delivery.
+
+Root causes identified:
+
+1. Voltage sag under motor startup load.
+2. L298N motor driver current limitations.
+3. AMS1117 regulator overheating when supplied directly from 12V.
+4. Thin jumper wires causing voltage drop and current bottleneck.
+
+---
+
+## 📊 Electrical Load Analysis
+
+### Continuous Current Estimate
+
+- 4 × 12V DC gear motors (0.5A each running) → 2A
+- Johnson blade motor (~1A running)
+- ESP32 (~0.25A)
+- Sensors + LCD + relays (~0.2A)
+
+Total continuous current ≈ 3.5A
+
+### Peak / Stall Current Estimate
+
+- 4 × gear motors (2A stall each) → 8A
+- Blade motor (3A stall)
+- Electronics (~0.5A)
+
+Peak current ≈ 11–12A
+
+System must tolerate ≥12A transient spikes.
+
+---
+
+## 🔥 Regulator Design Correction
+
+Incorrect design risk:
+
+Using AMS1117 directly from 12V to 3.3V.
+
+Power dissipation:
+P = (Vin - Vout) × I  
+P = (12 - 3.3) × 0.25 ≈ 2.17W
+
+This causes overheating and brownouts.
+
+Corrected power architecture:
+
+12V → LM2596 → 5V  
+5V → ESP32 (or AMS1117 → 3.3V)
+
+This significantly reduces thermal stress.
+
+---
+
+## 🔧 Phase A: Academic Prototype Stabilization
+
+To ensure reliable demonstration:
+
+1. Replace jumper wires for motor power with:
+  - 16 AWG (battery lines)
+  - 18 AWG (motor lines)
+2. Keep jumper wires only for signal connections.
+3. Add 470µF capacitor across motor driver input.
+4. Separate motor power and logic power paths (common ground only).
+5. Ensure ESP32 is powered from regulated 5V (not raw 12V).
+
+These changes address voltage drop and brownout issues.
+
+---
+
+## 🚜 Phase B: Field-Ready Engineering Upgrade
+
+For agricultural deployment reliability:
+
+- Replace L298N with BTS7960 or equivalent high-current MOSFET driver.
+- Upgrade battery to 12V 10Ah lithium (≥1.5C discharge).
+- Implement adjustable blade height mechanism.
+- Improve grounding and cable management.
+- Add battery voltage monitoring via ESP32 ADC.
+- Consider custom PCB for stable power distribution.
+
+---
+
+## 📈 Engineering Insight
+
+The primary limitation of the current prototype is not mechanical torque or control logic, but power delivery robustness.
+
+Future development will focus on:
+
+- High-efficiency motor drivers
+- Reduced voltage drop
+- Thermal management
+- Field-grade reliability
