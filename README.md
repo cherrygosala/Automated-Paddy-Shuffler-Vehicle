@@ -184,3 +184,83 @@ Under the guidance of **Sri G. Chandra Shekar**, Assistant Professor, JNTUH-UCES
 The source code is part of internal academic evaluation and is being incrementally published as development progresses. This repository includes the embedded control system, computer vision pipeline, and CPS decision logic.
 
 > For more details or collaboration inquiries, feel free to reach out via LinkedIn.
+
+---
+
+## ⚡ Power System Analysis & Engineering Improvements
+
+### 1) Electrical Load Calculations
+
+| Load                    | Qty | Running Current (A) | Stall/Peak Current (A) | Total Running (A) | Total Stall (A) |
+|-------------------------|----:|--------------------:|-----------------------:|------------------:|----------------:|
+| 12V DC Gear Motor       |   4 |               0.5   |                   2.0  |              2.0  |            8.0  |
+| 12V Johnson Blade Motor |   1 |               1.0   |                   3.0  |              1.0  |            3.0  |
+| ESP32                   |   1 |               0.25  |                   0.25 |              0.25 |            0.25 |
+| Sensors + Relays        |   1 |               0.20  |                   0.20 |              0.20 |            0.20 |
+| **Total**               |     |                     |                        |         **~3.45 A** |     **~11.45 A** |
+
+- Continuous current (typical operation): **~3.5 A**
+- Peak/stall current (worst case): **~12 A**
+
+### 2) Battery Recommendation
+
+A 12V 7Ah battery is insufficient for long runtime under multi-motor load. At ~3.5 A continuous draw, the ideal runtime is:
+
+$$
+	ext{Runtime (hours)} = \frac{\text{Capacity (Ah)}}{\text{Load (A)}}
+$$
+
+- 12V 7Ah: $7 / 3.5 \approx 2$ hours (practically less due to Peukert effect and voltage sag)
+- **Recommended:** 12V 10Ah Lithium for better energy density, reduced voltage sag, and longer service life
+- 12V 10Ah: $10 / 3.5 \approx 2.85$ hours (usable runtime increases with lithium chemistry)
+
+### 3) Critical Design Flaw: AMS1117 Direct from 12V
+
+Using AMS1117 directly from 12V to 3.3V is unsafe due to excessive thermal dissipation:
+
+$$
+P = (V_{in} - V_{out}) \times I
+$$
+
+Example at $I = 0.25$ A:
+
+$$
+P = (12 - 3.3) \times 0.25 = 2.175\;\text{W}
+$$
+
+This exceeds safe dissipation for AMS1117 without a large heatsink and will cause overheating. **Recommended cascade:**
+
+- 12V → 5V using LM2596 buck converter
+- 5V → 3.3V using AMS1117 LDO
+
+This reduces thermal loss and stabilizes the ESP32 supply rail.
+
+### 4) Motor Driver Limitation (L298N)
+
+The L298N is rated for **2 A per channel**. Driving two motors per channel risks exceeding the limit during stall or load surges:
+
+- Two gear motors per channel can reach **4 A stall**, exceeding the driver rating
+
+**Recommended upgrades:**
+- BTS7960 (high-current MOSFET driver)
+- Cytron 10A motor driver
+- Or use **2 separate L298N boards** (one motor per channel)
+
+### 🔧 Reliability & Safety Improvements
+
+- **15A fuse** at battery output for short-circuit protection
+- **470µF capacitor** near motor driver input to absorb transient spikes
+- **100µF capacitor** near ESP32 supply to stabilize voltage during motor switching
+- Wire gauge guidance:
+  - **16 AWG** for battery main line
+  - **18 AWG** for motor lines
+  - **22 AWG** for signal/control lines
+- Star-grounding practice: tie motor, logic, and sensor grounds at a single low-impedance point to minimize noise coupling
+
+### 🚀 Future Engineering Upgrades
+
+- Replace L298N with high-efficiency MOSFET driver
+- Add current sensing for each motor channel
+- Add battery voltage monitoring via ADC
+- Add thermal monitoring on motor driver and regulators
+- Transition to a modular PCB instead of jumper wiring
